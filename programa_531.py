@@ -78,40 +78,52 @@ class Ejercicio(Estructura):
     def calcular_pesos_semana_deload(self):
         return super().calcular_pesos_semana_deload()
     
-#no cambian
-porcentaje = CrearListaPorcentajes()
-porcentajes = porcentaje.porcentajes_lista()        
-
-print("Recomendado en ejercicios compuestos como: Press de banca, Sentadilla y Peso Muerto.")
-unorm = float(input("1RM real(kg/lbs): "))    
-unidad = input("kg/lbs: ")
-
+# Trabajar todo en un mismo sistema de medida
 def conversion_unidades(unorm, unidad):
     unidad = unidad.lower()
     if unidad == "kg":
         return unorm
     elif unidad == "lbs":  
         unorm = unorm/2.20462
-        return unorm
-    
-tm = conversion_unidades(unorm, unidad) * 0.90
+        return unorm    
+ 
+#no cambian
+porcentaje = CrearListaPorcentajes()
+porcentajes = porcentaje.porcentajes_lista()        
 
+print("Recomendado en ejercicios compuestos como: Press de banca, Sentadilla y Peso Muerto.\n")
+
+verificacion = str(input("¿Conoce su máximo de trabajo(TM)?: ")).lower()
+
+while verificacion != "si" and verificacion != "no":
+    print("No existe esta opción.")
+    verificacion = str(input("¿Conoce su máximo de trabajo(TM)?: ")).lower()
+
+if verificacion == "si":
+    tm = float(input("Máximo de trabajo: "))
+    unidad = input("kg/lbs: ")
+    tm = conversion_unidades(tm, unidad)
+    
+else:
+    unorm = float(input("1RM real: "))    
+    unidad = input("kg/lbs: ")
+    tm = conversion_unidades(unorm, unidad) * 0.90
+   
 ejercicio = Ejercicio(porcentajes, tm, unidad)
 
 def mostrar_plan(ejercicio, tm, unidad):
     if unidad == "lbs":
-        print(f"""TM: {tm*2.20462}
-      """)
+        print(f"\nTM: {tm*2.20462}")
     else:
-        print(f"""TM: {tm}
-      """)
-    print("Semana 1 ")
+        print(f"\nTM: {tm}")
+        
+    print("\nSemana 1 ")
     ejercicio.calcular_pesos_semana_1()
-    print("Semana 2")
+    print("\nSemana 2")
     ejercicio.calcular_pesos_semana_2()
-    print("Semana 3")
+    print("\nSemana 3")
     ejercicio.calcular_pesos_semana_3()
-    print("Semana 4")
+    print("\nSemana 4")
     ejercicio.calcular_pesos_semana_deload()
     
 mostrar_plan(ejercicio, tm, unidad)
