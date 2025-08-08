@@ -1,0 +1,1 @@
+Calcula los pesos a utilizar en un ciclo del programa 5/3/1.
